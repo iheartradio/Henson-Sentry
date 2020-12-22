@@ -22,8 +22,7 @@ class MockClient(Client):
 
 
 class MockConsumer:
-    @asyncio.coroutine
-    def read(self):
+    async def read(self):
         return 1
 
 
@@ -57,16 +56,14 @@ def sentry(test_client, test_app):
 @pytest.fixture
 def test_app(test_consumer, event_loop):
     """Return a test application."""
-    @asyncio.coroutine
-    def callback(app, message):
+    async def callback(app, message):
         raise Exception('testing')
 
     app = Application('testing', callback=callback, consumer=test_consumer)
     app.settings['SENTRY_DSN'] = 'testing'
 
     @app.message_acknowledgement
-    @asyncio.coroutine
-    def stop_loop(app, message):
+    async def stop_loop(app, message):
         event_loop.stop()
 
     return app

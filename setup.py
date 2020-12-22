@@ -21,8 +21,8 @@ def read(filename):
 setup(
     name='Henson-Sentry',
     version='0.4.0',
-    author='Andy Dirnberger',
-    author_email='andy@dirnberger.me',
+    author='Andy Dirnberger, Leonard Bedner, and others',
+    author_email='henson@iheart.com',
     url='https://henson-sentry.readthedocs.io',
     description='A library for integrating Sentry into a Henson application',
     long_description=read('README.rst'),
@@ -46,8 +46,8 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 3.4',
-        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3 :: Only',
         'Topic :: Software Development',
     ]
