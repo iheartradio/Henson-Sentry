@@ -1,19 +1,16 @@
 """Test Henson-Sentry."""
 
-import asyncio
-
 from henson_sentry import Sentry
 
 
 def test_capture_exception(sentry, test_app, event_loop, cancelled_future,
                            queue):
     """Test capture_exception."""
-    @asyncio.coroutine
-    def callback(app, message):
+    async def callback(app, message):
         try:
             1 / 0
         except:
-            yield from sentry.capture_exception()
+            await sentry.capture_exception()
     test_app.callback = callback
 
     event_loop.run_until_complete(
@@ -25,9 +22,8 @@ def test_capture_exception(sentry, test_app, event_loop, cancelled_future,
 def test_capture_message(sentry, test_app, event_loop, cancelled_future,
                          queue):
     """Test capture_message."""
-    @asyncio.coroutine
-    def callback(app, message):
-        yield from sentry.capture_message(message)
+    async def callback(app, message):
+        await sentry.capture_message(message)
     test_app.callback = callback
 
     event_loop.run_until_complete(

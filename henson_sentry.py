@@ -1,6 +1,5 @@
 """A Henson plugin to integrate Sentry."""
 
-import asyncio
 import os as _os
 import pkg_resources as _pkg_resources
 
@@ -67,26 +66,22 @@ class Sentry(Extension):
         app.error(self._handle_exception)
         app.message_acknowledgement(self._after_message)
 
-    @asyncio.coroutine
-    def capture_exception(self, exc_info=None, **kwargs):
+    async def capture_exception(self, exc_info=None, **kwargs):
         """Create an event from an exception."""
         self._client.captureException(exc_info, **kwargs)
 
-    @asyncio.coroutine
-    def capture_message(self, message, **kwargs):
+    async def capture_message(self, message, **kwargs):
         """Create an event from ``message``."""
         self._client.captureMessage(message, **kwargs)
 
-    @asyncio.coroutine
-    def _after_message(self, app, message):
+    async def _after_message(self, app, message):
         self._client.context.clear()
 
-    @asyncio.coroutine
-    def _handle_exception(self, app, message, exc):
+    async def _handle_exception(self, app, message, exc):
         if isinstance(exc, self.app.settings['RAVEN_IGNORE_EXCEPTIONS']):
             return
 
-        yield from self.capture_exception(message=message)
+        await self.capture_exception(message=message)
 
 
 def _make_client(app):
